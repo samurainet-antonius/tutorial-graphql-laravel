@@ -1,0 +1,31 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+# scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+type Query {
+    quests: [Quest!]! @all
+    quest(id: Int! @eq): Quest @find
+    categories: [Category!]! @all
+    category(id: Int! @eq): Category @find
+}
+
+type Mutation {
+    createCategory(title: String!): Category! @create
+    updateCategory(id: ID!, title: String): Category! @update
+    deleteCategory(id: ID!): Category @delete
+    createQuest(title: String!, reward: Int, description: String): Quest! @create
+    updateQuest(id: ID!, title: String, reward: Int, description: String): Quest! @update
+    deleteQuest(id: ID!): Quest @delete
+}
+
+type Quest {
+    id: ID!
+    title: String!
+    description: String!
+    reward: Int!
+    category: Category! @belongsTo
+}
+
+type Category {
+    id: ID!
+    title: String!
+    quests: [Quest!]! @hasMany
+}
